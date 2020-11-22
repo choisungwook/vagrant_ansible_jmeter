@@ -19,7 +19,7 @@
   get_url:
     url: https://download.docker.com/linux/centos/docker-ce.repo
     dest: /etc/yum.repos.d/docer-ce.repo
-
+ 
 - name: Install Docker Prerequisite packages
   package:
     name: "{{ item }}"
@@ -36,11 +36,61 @@
   - docker-ce-cli 
   - containerd.io
   - docker-compose
-  notify:
-    - Start docker
+  
+- name: create docker group
+  group:
+    name: docker
+    state: present
+
+- name: Add user vagrant to docker group
+  user:
+    name: vagrant
+    groups: docker
+    append: yes
+
+- name: Start docker
+  service:
+    name: docker
+    state: started
 
 - name: git clone
   git:
     repo: 'https://github.com/choisungwook/springboot_board.git'
     dest: /home/vagrant/board
   become: no
+
+- name: Build a jmeger base
+  community.general.docker_image:
+    build:
+      path: /home/vagrant/dockerfiles/base
+    name: jmeterbase
+    tag: v1
+    push: no
+    pull: no
+    source: build
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+- name: build a jmeter master
+  community.general.docker_image:
+    build:
+      path: /home/vagrant/dockerfiles/master
+    name: jmetermaster
+    tag: v1
+    push: no
+    pull: no
+    source: build
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+- name: Build a jmeterslave
+  community.general.docker_image:
+    build:
+      path: /home/vagrant/dockerfiles/slave
+    name: jmeterslave
+    tag: v1
+    push: no
+    pull: no
+    source: build
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
