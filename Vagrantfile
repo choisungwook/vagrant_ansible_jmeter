@@ -1,6 +1,6 @@
 INET = "jmeter"
 IMAGE_NAME = "centos/7"
-IP_MASTER = " 192.168.219.240"
+IP_MASTER = "192.168.219.240"
 JMETER_MASTER = "192.168.219.230"
 JMETER_CLIENT = "192.168.50."
 N = 1
@@ -23,6 +23,9 @@ Vagrant.configure("2") do |config|
       sed -i -e 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
       systemctl restart sshd
     SCRIPT
+
+     # copy docker files
+     cfg.vm.provision "file", source: "./dockerfiles", destination: "dockerfiles"
   end
 
   # # ansible-cleint001
@@ -61,6 +64,8 @@ Vagrant.configure("2") do |config|
       yum install python36 libselinux-python3 -y 
       yum install sshpass -y
       sudo pip3 install ansible
+      sed -i -e 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+      systemctl restart sshd
     SCRIPT
 
     # copy ansible files
@@ -69,7 +74,7 @@ Vagrant.configure("2") do |config|
     cfg.vm.provision "shell", inline: "ansible-playbook ./install_ansible/configure_ssh.yaml -i /home/vagrant/hosts", privileged: false
 
     # jmeter-master
-    cfg.vm.provision "file", source: "jmeter", destination: "jmeter"
+    cfg.vm.provision "file", source: "./jmeter", destination: "jmeter"
     cfg.vm.provision "shell", inline: "ansible-playbook ./jmeter/site.yaml -i /home/vagrant/hosts", privileged: false
   end
 end
