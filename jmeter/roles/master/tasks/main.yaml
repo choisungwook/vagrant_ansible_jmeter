@@ -37,3 +37,9 @@
   - containerd.io
   notify:
     - Start docker
+
+- name: git clone
+  git:
+    repo: 'https://github.com/choisungwook/springboot_board.git'
+    dest: /home/vagrant/board
+  become: no
