@@ -1,0 +1,39 @@
+---
+
+- name: Add the epel-release
+  yum:
+    name: epel-release
+    state: latest
+
+- name: Install the java11
+  yum:
+    name: java-11-openjdk
+    state: latest
+
+- name: Install the git
+  yum:
+    name: git
+    state: latest
+
+- name: Add the Docker repo
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docer-ce.repo
+
+- name: Install Docker Prerequisite packages
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+  - yum-utils
+
+- name: Install the Docker
+  package:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+  - docker-ce 
+  - docker-ce-cli 
+  - containerd.io
+  notify:
+    - Start docker
