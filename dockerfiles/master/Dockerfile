@@ -1,0 +1,3 @@
+FROM jmeterbase:1
+
+EXPOSE 60000
