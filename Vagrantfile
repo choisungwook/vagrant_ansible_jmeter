@@ -1,7 +1,7 @@
 INET = "jmeter"
 IMAGE_NAME = "centos/7"
-IP_MASTER = "192.168.50.240"
-JMETER_MASTER = "192.168.50.230"
+IP_MASTER = " 192.168.219.240"
+JMETER_MASTER = "192.168.219.230"
 JMETER_CLIENT = "192.168.50."
 N = 1
 
@@ -11,7 +11,7 @@ Vagrant.configure("2") do |config|
   # jmeter-master
   config.vm.define "jmeter-master" do |cfg|
     cfg.vm.box = IMAGE_NAME
-    cfg.vm.network "private_network", ip: JMETER_MASTER, virtualbox__intnet: INET
+    cfg.vm.network "public_network", ip: JMETER_MASTER
     cfg.vm.hostname = "jmeter-master"
     
     cfg.vm.provider "virtualbox" do |v|
@@ -49,7 +49,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "ansible-server3" do |cfg|
     cfg.vm.box = IMAGE_NAME
     cfg.vm.hostname = "ansible-server-3"
-    cfg.vm.network "private_network", ip: IP_MASTER, virtualbox__intnet: INET
+    cfg.vm.network "public_network", ip: IP_MASTER
 
     cfg.vm.provider "virtualbox" do |v|
       v.memory = 2048
