@@ -26,3 +26,4 @@ chmod +x ./start.sh [슬레이브 수] [jmx경로]
 * [9] 네이버비지니스플랫폼-ansible 설명: https://blog.naver.com/n_cloudplatform/221753934419
 * [10] 공식문서: ansible docker module: https://docs.ansible.com/ansible/latest/collections/community/general/docker_image_module.html
 * [11] 공식문서: ansible docker-image module: https://docs.ansible.com/ansible/2.3/docker_image_module.html
+* [12] 블로그-geturl: https://www.middlewareinventory.com/blog/ansible-get_url-examples-how-to-download-file-from-url/
