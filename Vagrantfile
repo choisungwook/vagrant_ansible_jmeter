@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
     cfg.vm.hostname = "jmeter-master"
     
     cfg.vm.provider "virtualbox" do |v|
-      v.memory = 1024
+      v.memory = 8192
       v.cpus = 1
       v.name = "meter-master"
     end
