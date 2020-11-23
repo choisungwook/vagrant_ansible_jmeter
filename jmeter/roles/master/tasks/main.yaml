@@ -94,3 +94,42 @@
     source: build
   vars:
     ansible_python_interpreter: /usr/bin/python3
+
+
+- name: Creates directory
+  file:
+    path: /home/vagrant/board/target
+    state: directory
+    group: vagrant
+    owner: vagrant
+
+- name: Download webapp
+  become: yes
+  get_url:
+    url: https://github.com/choisungwook/springboot_board/releases/download/1/board-0.0.1-SNAPSHOT.jar
+    dest: /home/vagrant/board/target/webbapp.jar
+    mode: 0755
+    group: vagrant
+    owner: vagrant
+
+- name: Build a webapp
+  community.general.docker_image:
+    build:
+      path: /home/vagrant/board
+    name: webapp
+    tag: v1
+    push: no
+    pull: no
+    source: build
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+
+- name: Mode 755 for start.sh
+  file:
+    path: /home/vagrant/dockerfiles/start.sh
+    mode: 0755
+
+- name: Mode 755 for clear.sh
+  file:
+    path: /home/vagrant/dockerfiles/clear.sh
+    mode: 0755
