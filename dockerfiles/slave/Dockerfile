@@ -1,8 +1,8 @@
 FROM jmeterbase:v1
 
-RUN ln -s /opt/apache-jmeter-${JMETER_VERSION}/bin/jmeter-server /usr/local/bin
 EXPOSE 1099 50000
 
-ENTRYPOINT $JMETER_HOME/bin/jmeter-server \
+RUN sed -i s/#server.rmi.ssl.disable=false/server.rmi.ssl.disable=true/g /opt/apache-jmeter-5.3/bin/jmeter.properties
+ENTRYPOINT /opt/apache-jmeter-5.3/bin/jmeter-server \
 -Dserver.rmi.localport=50000 \
 -Dserver_port=1099
