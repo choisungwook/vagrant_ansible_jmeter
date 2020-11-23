@@ -1,6 +1,13 @@
 version: '3'
 
 services:
+  webapp:
+    image: webapp:v1
+    container_name: webapp
+    networks:
+    - jmeternetwork
+    ports:
+    - "80:9090"
   master:
     image: jmetermaster:v1
     container_name: master
@@ -12,8 +19,6 @@ services:
     tty: true
     networks:
     - jmeternetwork
-    volumes:
-    - .:/scripts
 
 networks:
   jmeternetwork:
