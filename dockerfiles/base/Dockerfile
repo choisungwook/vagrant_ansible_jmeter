@@ -11,3 +11,4 @@ RUN cd /opt \
 
 # Create a symlink to the jmeter process in a normal bin directory
 RUN ln -s /opt/apache-jmeter-${JMETER_VERSION}/bin/jmeter /usr/local/bin
+RUN ln -s /opt/apache-jmeter-${JMETER_VERSION}/bin/jmeter-server /usr/local/bin
