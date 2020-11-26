@@ -19,7 +19,7 @@ echo $SERVER_IP
 
 docker inspect -f '{{.Name}} {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)
 
-sed  s/TARGET_IP/$WEBAPP_IP/g run.jmx > $run_jmx_filename
+sed  s/TARGET_IP/$WEBAPP_IP/g $run_jmx_filename > run.jmx
 docker cp $run_jmx_filename client:/
 
 # run client
