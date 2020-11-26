@@ -55,7 +55,7 @@
             <collectionProp name="HeaderManager.headers">
               <elementProp name="Referer" elementType="Header">
                 <stringProp name="Header.name">Referer</stringProp>
-                <stringProp name="Header.value">http://192.168.219.230:9090/</stringProp>
+                <stringProp name="Header.value">http://TARGET_IP:9090/</stringProp>
               </elementProp>
               <elementProp name="Accept-Language" elementType="Header">
                 <stringProp name="Header.name">Accept-Language</stringProp>
