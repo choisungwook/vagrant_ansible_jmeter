@@ -63,7 +63,7 @@
   community.general.docker_image:
     build:
       path: /home/vagrant/dockerfiles/base
-    name: jmeterbase
+    name: base
     tag: v1
     push: no
     pull: no
@@ -71,11 +71,11 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
 
-- name: build a jmeter master
+- name: build a jmeter client
   community.general.docker_image:
     build:
-      path: /home/vagrant/dockerfiles/master
-    name: jmetermaster
+      path: /home/vagrant/dockerfiles/client
+    name: client
     tag: v1
     push: no
     pull: no
@@ -83,11 +83,11 @@
   vars:
     ansible_python_interpreter: /usr/bin/python3
 
-- name: Build a jmeterslave
+- name: Build a jmeter-server
   community.general.docker_image:
     build:
-      path: /home/vagrant/dockerfiles/slave
-    name: jmeterslave
+      path: /home/vagrant/dockerfiles/server
+    name: server
     tag: v1
     push: no
     pull: no
