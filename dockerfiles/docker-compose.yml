@@ -6,15 +6,13 @@ services:
     container_name: webapp
     networks:
     - jmeter
-  master:
+  client:
     image: client:v1
     container_name: client
     networks:
     - jmeter
-    volumes:
-    - $PWD:/mnt/jmeter
     tty: true
-  slave:
+  server:
     image: server:v1
     command: /jmeter/apache-jmeter-5.3/bin/jmeter-server -n
     networks:
