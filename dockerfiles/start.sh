@@ -1,24 +1,26 @@
 #!/bin/bash
 # number of slaves
 COUNT=$1
-mkdir -p results
 
 # create docker containers
 docker-compose up -d
-docker-compose scale master=1 slave=$COUNT
+docker-compose scale client=1 server=$COUNT
 
 jmx_filename=$2
-run_jmx_filename="run.jmx"
+run_jmx_filename=$2
 WEBAPP_IP=$(docker inspect -f '{{.Name}} {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq) | grep webapp | awk -F' ' '{print $2}' | tr '\n' ',' | sed 's/.$//')
-SLAVE_IP=$(docker inspect -f '{{.Name}} {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq) | grep slave | awk -F' ' '{print $2}' | tr '\n' ',' | sed 's/.$//')
+SERVER_IP=$(docker inspect -f '{{.Name}} {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq) | grep server | awk -F' ' '{print $2}' | tr '\n' ',' | sed 's/.$//')
 
 echo "=============== WEBAPP IP============="
 echo $WEBAPP_IP
 
-echo "=============SLAVE_IP LIST"
-echo $SLAVE_IP
-echo "====================="
+echo "=============SERVER LIST"
+echo $SERVER_IP
 
-sed  s/TARGET_IP/$WEBAPP_IP/g test.jmx > $run_jmx_filename
-docker cp $run_jmx_filename master:/
-docker exec -it master /bin/bash -c "jmeter -n -t run.jmx -R$SLAVE_IP"
+docker inspect -f '{{.Name}} {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)
+
+sed  s/TARGET_IP/$WEBAPP_IP/g run.jmx > $run_jmx_filename
+docker cp $run_jmx_filename client:/
+
+# run client
+docker exec -it client /bin/bash -c "jmeter -n -t $run_jmx_filename -R$SERVER_IP"
