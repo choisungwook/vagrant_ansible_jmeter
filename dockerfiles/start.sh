@@ -20,7 +20,7 @@ echo $SERVER_IP
 docker inspect -f '{{.Name}} {{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $(docker ps -aq)
 
 sed  s/TARGET_IP/$WEBAPP_IP/g $run_jmx_filename > run.jmx
-docker cp $run_jmx_filename client:/
+docker cp run.jmx client:/
 
 # run client
 docker exec -it client /bin/bash -c "jmeter -n -t $run_jmx_filename -R$SERVER_IP"
