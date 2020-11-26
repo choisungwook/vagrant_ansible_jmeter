@@ -23,4 +23,4 @@ sed  s/TARGET_IP/$WEBAPP_IP/g $run_jmx_filename > run.jmx
 docker cp run.jmx client:/
 
 # run client
-docker exec -it client /bin/bash -c "jmeter -n -t $run_jmx_filename -R$SERVER_IP"
+docker exec -it client /bin/bash -c "jmeter -n -t run.jmx -R$SERVER_IP"
