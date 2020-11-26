@@ -1,14 +1,27 @@
-# build on the top of Java image
-FROM java:8
-# JMeter Version
-ARG JMETER_VERSION="5.3"
+# Use Java 8 slim JRE
+FROM openjdk:8-jre-slim
 
-# Download and unpack the JMeter tar file
-RUN cd /opt \
- && wget https://mirrors.estointernet.in/apache//jmeter/binaries/apache-jmeter-${JMETER_VERSION}.tgz \
- && tar xzf apache-jmeter-${JMETER_VERSION}.tgz \
- && rm apache-jmeter-${JMETER_VERSION}.tgz
+# JMeter version
+ARG JMETER_VERSION=5.3
 
-# Create a symlink to the jmeter process in a normal bin directory
-RUN ln -s /opt/apache-jmeter-${JMETER_VERSION}/bin/jmeter /usr/local/bin
-RUN ln -s /opt/apache-jmeter-${JMETER_VERSION}/bin/jmeter-server /usr/local/bin
+# Install few utilities
+RUN apt-get clean && \
+    apt-get update && \
+    apt-get -qy install \
+                wget \
+                telnet \
+                iputils-ping \
+                unzip
+
+# Install JMeter
+RUN   mkdir /jmeter \
+      && cd /jmeter/ \
+      && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-$JMETER_VERSION.tgz \
+      && tar -xzf apache-jmeter-$JMETER_VERSION.tgz \
+      && rm apache-jmeter-$JMETER_VERSION.tgz
+
+# Set JMeter Home
+ENV JMETER_HOME /jmeter/apache-jmeter-$JMETER_VERSION/
+
+# Add JMeter to the Path
+ENV PATH $JMETER_HOME/bin:$PATH
