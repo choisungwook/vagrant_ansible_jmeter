@@ -1,19 +1,24 @@
 # vagrant_ansible_jmeter
 vagrant과 ansible로 jmeter test환경 구축
 
-# 진행상황
-* 도커로 분산 실행
 ![](./실행화면.PNG)
-
 
 # 실행방법
 * 테스트할 서버의 IP필요
 * jmeter jmx파일을 filezila등으로 복사
+* influxdb, grafana실행
+```
+cd /dockerfiles/dashboard/
+docker-compose up
+```
 * 명령어 실행
 ```sh
 chmod +x ./start.sh [슬레이브 수] [jmx경로]
 ./start.sh
 ```
+
+# grafana 템플릿
+* https://github.com/vishalgoyan/Jmeter_Grafana_Dashboards/blob/master/JMeter%20Dashboard.json
 
 # 참고자료
 * [1] 블로그-centos7 install java11: https://phoenixnap.com/kb/install-java-on-centos
@@ -29,3 +34,4 @@ chmod +x ./start.sh [슬레이브 수] [jmx경로]
 * [11] 공식문서: ansible docker-image module: https://docs.ansible.com/ansible/2.3/docker_image_module.html
 * [12] 블로그-geturl: https://www.middlewareinventory.com/blog/ansible-get_url-examples-how-to-download-file-from-url/
 * [13] JMETER 스크립트 추출: https://www.youtube.com/watch?v=m4bxF756ZGw
+* [14] 블로그-jmeter backend listner 설정: https://e3jake.tistory.com/64
