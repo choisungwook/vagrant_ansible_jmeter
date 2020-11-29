@@ -8,5 +8,5 @@
       copy:
         dest: /home/vagrant/hosts
         content: |
-          [master]
-          192.168.219.230
+          [jmeter]
+          192.168.219.200

@@ -1,23 +1,22 @@
 INET = "jmeter"
 IMAGE_NAME = "centos/7"
-IP_MASTER = "192.168.219.240"
-JMETER_MASTER = "192.168.219.230"
-JMETER_CLIENT = "192.168.50."
+IP_MASTER = "192.168.219.199"
+JMETER_MASTER = "192.168.219.200"
 N = 1
 
 Vagrant.configure("2") do |config|
   config.ssh.insert_key = false
 
   # jmeter-master
-  config.vm.define "jmeter-master" do |cfg|
+  config.vm.define "jmeter" do |cfg|
     cfg.vm.box = IMAGE_NAME
     cfg.vm.network "public_network", ip: JMETER_MASTER
-    cfg.vm.hostname = "jmeter-master"
+    cfg.vm.hostname = "jmeter"
     
     cfg.vm.provider "virtualbox" do |v|
       v.memory = 8192
       v.cpus = 1
-      v.name = "meter-master"
+      v.name = "jmeter"
     end
     cfg.vm.provision "shell", inline: <<-SCRIPT
       sed -i -e 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
@@ -27,26 +26,6 @@ Vagrant.configure("2") do |config|
      # copy docker files
      cfg.vm.provision "file", source: "./dockerfiles", destination: "dockerfiles"
   end
-
-  # # ansible-cleint001
-  # (1..N).each do |i|
-  #   config.vm.define "jmeter-client#{i}" do |cfg|
-  #     cfg.vm.box = IMAGE_NAME
-  #     cfg.vm.network "private_network", ip: JMETER_CLIENT + "#{i+10}", virtualbox__intnet: INET
-  #     cfg.vm.hostname = "ansible-client#{i}"
-      
-  #     cfg.vm.provider "virtualbox" do |v|
-  #       v.memory = 1024
-  #       v.cpus = 1
-  #       v.name = "ansible-client#{i}"
-  #     end
-  #     cfg.vm.provision "shell", inline: <<-SCRIPT
-  #       sed -i -e 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-  #       systemctl restart sshd
-  #     SCRIPT
-  #   end
-  # end
-
 
   # ansible-server
   config.vm.define "ansible-server3" do |cfg|
