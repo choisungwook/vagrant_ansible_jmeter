@@ -133,3 +133,6 @@
   file:
     path: /home/vagrant/dockerfiles/clear.sh
     mode: 0755
+
+- name: create docker network
+  command: docker network create jmeter

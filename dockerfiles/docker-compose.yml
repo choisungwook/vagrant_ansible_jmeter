@@ -4,20 +4,15 @@ services:
   webapp:
     image: webapp:v1
     container_name: webapp
-    networks:
-    - jmeter
   client:
     image: client:v1
     container_name: client
-    networks:
-    - jmeter
     tty: true
   server:
     image: server:v1
     command: /jmeter/apache-jmeter-5.3/bin/jmeter-server -n
-    networks:
-    - jmeter
 
 networks:
-  jmeter:
-    driver: bridge
+  default:
+    external:
+      name: jmeter
